@@ -203,7 +203,8 @@ namespace bin2cpp
     std::string output;
     output << "    virtual bool save(const char * iFilename) const\n";
     output << "    {\n";
-    output << "      FILE * f = fopen(iFilename, \"wb\");\n";
+    output << "      FILE * f;";
+    output << "      fopen_s(&f, iFilename, \"wb\");\n";
     output << "      if (!f) return false;\n";
     output << "      size_t fileSize = getSize();\n";
     output << "      const char * buffer = getBuffer();\n";
@@ -279,7 +280,7 @@ namespace bin2cpp
     fprintf(header, "    virtual bool save(const char * iFilename) const = 0;\n");
     fprintf(header, "  };\n");
     fprintf(header, "  #endif //%s_EMBEDDEDFILE_CLASS\n", classMacroGuardPrefix.c_str());
-    fprintf(header, "  const %s & %s();\n", mBaseClass.c_str(), getGetterFunctionName().c_str());
+    fprintf(header, "  inline const %s & %s();\n", mBaseClass.c_str(), getGetterFunctionName().c_str());
     fprintf(header, "}; //%s\n", mNamespace.c_str());
     fprintf(header, "\n");
     fprintf(header, "#endif //%s\n", macroGuard.c_str());
